@@ -1,0 +1,163 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ccc;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+  padding: 20px 20px 10px 20px;
+}
+
+.page-title {
+  font-weight: 800;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Large Image Layout */
+.large-image-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #0ff;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,1);
+}
+
+.large-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay gradient from black 30% opacity to transparent */
+.large-image-container .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(0,0,0,2), transparent);
+  padding: 10px 15px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 0 0 15px 15px;
+}
+
+.large-image-container .overlay h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  margin-bottom: 3px;
+}
+
+.large-image-container .overlay p {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+/* Small Images Scroll Container */
+.small-images-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #444 transparent;
+}
+
+.small-images-container::-webkit-scrollbar {
+  height: 7px;
+}
+
+.small-images-container::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 10px;
+}
+
+.small-images-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Small Image Item */
+.small-images-container .small-image {
+  flex: 0 0 140px; /* Lebar tetap */
+  height: 100px;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 3px 3px 5px rgba(0,0,0,1);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.small-images-container .small-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  display: block;
+  border-radius: 15px;
+}
+
+.small-images-container .small-image:hover,
+.small-images-container .small-image.active {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  transform: scale(1.05);
+}
+
+/* Footer Contact Person */
+footer {
+  background-color: #666;
+  color: white;
+  padding: 20px;
+  flex-shrink: 0;
+  height: 25vh; /* sekitar 1/4 halaman */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-person {
+  width: 100%;
+  max-width: 380px;
+}
+
+.contact-person h2 {
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .large-image-container {
+    height: 220px;
+  }
+
+  .small-images-container .small-image {
+    flex: 0 0 110px;
+    height: 80px;
+  }
+
+  .contact-person {
+    max-width: 100%;
+  }
+}
