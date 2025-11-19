@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Peta Leaflet</title>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<!-- Style eksternal -->
+<link rel="stylesheet" href="assets/css/map.css">
+
+</head>
+<body>
+
+<div class="transition-overlay" id="transitionOverlay"></div>
+
+    <div class="banner">
+        <img src="images/ringincrop.png" alt="Logo" onclick="goBack()" />
+        <span>Peta Daerah Kabupaten Mojokerto</span>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="toggleDropdown()">Pilih Kecamatan ▼</button>
+            <div class="dropdown-content" id="dropdownContent">
+    <a onclick="simulateMarkerClick('Bangsal')">Bangsal</a>
+<a onclick="simulateMarkerClick('Dawarblandong')">Dawarblandong</a>
+<a onclick="simulateMarkerClick('Dlanggu')">Dlanggu</a>
+<a onclick="simulateMarkerClick('Gedeg')">Gedeg</a>
+<a onclick="simulateMarkerClick('Gondang')">Gondang</a>
+<a onclick="simulateMarkerClick('Jatirejo')">Jatirejo</a>
+<a onclick="simulateMarkerClick('Jetis')">Jetis</a>
+<a onclick="simulateMarkerClick('Kemlagi')">Kemlagi</a>
+<a onclick="simulateMarkerClick('Kutorejo')">Kutorejo</a>
+<a onclick="simulateMarkerClick('Mojoanyar')">Mojoanyar</a>
+<a onclick="simulateMarkerClick('Mojosari')">Mojosari</a>
+<a onclick="simulateMarkerClick('Ngoro')">Ngoro</a>
+<a onclick="simulateMarkerClick('Pacet')">Pacet</a>
+<a onclick="simulateMarkerClick('Pungging')">Pungging</a>
+<a onclick="simulateMarkerClick('Puri')">Puri</a>
+<a onclick="simulateMarkerClick('Sooko')">Sooko</a>
+<a onclick="simulateMarkerClick('Trawas')">Trawas</a>
+<a onclick="simulateMarkerClick('Trowulan')">Trowulan</a>
+</div>
+        </div>
+    </div>
+
+    <button class="back-button" onclick="goBack()">Kembali ke Beranda
+    </button>
+
+    <div id="map"></div>
+
+    <div class="collapse-panel" id="collapsePanel" aria-live="polite" aria-atomic="true" aria-relevant="additions">
+        <button class="close-button" onclick="closeCollapse()">X</button>
+        <div class="panel-content">
+            <img src="images/himeko.png" alt="Gambar Lokasi" id="panelImage" />
+            <div class="text-content">
+                <h2 id="panelTitle">Nama Kecamatan</h2>
+                <p id="panelDescription">Deskripsi singkat lokasi ini. [Ganti dengan deskripsi asli]</p>
+            </div>
+        </div>
+        <button class="action-button" onclick="goToDetailPage()">Lihat Lebih Lanjut</button>
+    </div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Script eksternal -->
+<script src="assets/java/map.js"></script>
+
+</body>
+</html>
