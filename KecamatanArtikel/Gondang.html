@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Info Kecamatan</title>
+<style>
+  /* Reset dan dasar */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  body {
+    background: white;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Banner Pink */
+  .banner {
+    background-image: url(imagess/112.jpeg);
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 140px;
+  }
+
+  @media (min-width: 568px) {
+    .banner {
+      background-size: cover;
+      height: 23vh;
+    }
+    .container {
+      justify-content: space-between;
+    }
+    .left-column {
+      margin-left: 0;
+      flex: 1 1 600px;
+    }
+    .box {
+      width: 100%;
+    }
+  }
+
+  /* Container utama - flexbox untuk full width */
+  .container {
+    max-width: 1280px; /* Membatasi lebar maksimal dan memusatkan layout */
+    margin: 0 auto; /* Memusatkan container di halaman */
+    margin-top: auto;
+    padding: 20px;
+    display: flex; /* Diubah dari grid ke flexbox */
+    justify-content: center; /* Memusatkan kolom untuk jarak yang lebih ke tengah */
+    gap: 20px; /* Menggantikan grid-gap */
+
+    /*  ADDITION: agar isi container bisa membesar maksimal memenuhi ruang kosong */
+    width: 90vw; /* container akan mengisi 90% viewport width */
+    min-width: 320px; /* minimal lebar agar tidak terlalu kecil */
+    transition: width 0.8s ease; /* transisi halus saat resize */
+  }
+
+  /* Kiri */
+  .left-column {
+    flex: 0 1 600px; /* Lebar maksimal 600px, dapat menyusut */
+    margin-left: 2%;
+    display: flex;
+    flex-direction: column;
+
+    /* ADDITION: biar lebar kiri mengikuti container dan lebih besar jika ruang ada */
+    max-width: 70vw; /* maksimal 70% dari viewport */
+    transition: max-width 0.8s ease;
+  }
+
+  /* Judul */
+  .title {
+    font-weight: 700;
+    font-size: 22px;
+    margin: 0 0 10px 0;
+  }
+
+  /* Paragraph desc text */
+  .desc {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-top: 0; margin-bottom: 15px;
+  }
+
+  /* Kotak warna dengan ukuran fixed height */
+  .box {
+    border-radius: 10px;
+    height: 100px;
+    margin-bottom: 15px;
+    width: 80%; /* Membuat lebar box lebih sempit dari teks desc */
+
+    /* ADDITION supaya box dapat membesar secara halus sesuai ruang */
+    max-width: 600px;
+    transition: max-width 0.8s ease;
+  }
+
+  @media (max-width: 568px) {
+    .box {
+      height: 100px; /* Membesar memanjang */
+      width: 250px; /* Melebar penuh, boleh mendesak desc */
+    }
+  }
+  
+  @media (min-width: 568px) {
+    .box {
+      height: 200px; /* Membesar memanjang */
+      width: 450px; /* Melebar penuh, boleh mendesak desc */
+    }
+   .contact-person {
+      max-width: 100%;
+    }
+
+  }
+
+  .blue-box {
+    background-image: url(imagess/1120.jpg);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+  }
+
+  .blue-box:hover {
+    transform: scale(1.1);
+  }
+
+  .lime-box {
+    background-image: url(/images/114.jpeg);
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+  }
+
+  .lime-box:hover {
+    transform: scale(1.1);
+  }
+  .cyan-box {
+    background-color: #33d4ff;
+  }
+  .black-box {
+    background-color: #000000;
+  }
+
+
+  /* Kanan */
+  .right-column {
+    flex: 0 1 300px; /* Lebar maksimal 300px untuk mencegah bertabrakan */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Tetap sejajar ke kanan */
+
+    /* ADDITION supaya kolom kanan juga dapat membesar maksimal */
+    
+  }
+
+  .red-box {
+    width: 150px;
+    height: 120px;
+    border-radius: 10px;
+    margin-bottom: 4%;
+    overflow: hidden;
+    position: relative;
+
+    /* ADDITION agar red-box bisa membesar mengikuti max lebar right-column */
+    max-width: 100%;
+    transition: max-width 0.8s ease, height 0.8s ease;
+  }
+
+  @media (min-width: 720px) {
+    .red-box {
+      width: 200px;
+      height: 160px;
+    }
+  }
+
+  .slider {
+    display: flex;
+    width: 750px; /* 5 gambar x 150px */
+    transition: transform 0.5s ease;
+  }
+
+  @media (min-width: 720px) {
+    .slider {
+      width: 1000px; /* 5 gambar x 200px */
+    }
+  }
+
+  .slide {
+    width: 150px;
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (min-width: 720px) {
+    .slide {
+      width: 200px;
+      height: 160px;
+    }
+  }
+
+  .slide:nth-child(1) {
+    background-image: url(imagess/2120.jpeg);
+  }
+
+  .slide:nth-child(2) {
+    background-image: url(imagess/2121.jpeg);
+  }
+
+  .slide:nth-child(3) {
+    background-image: url(imagess/2122.jpeg);
+  }
+
+  .slide:nth-child(4) {
+    background-image: url(imagess/2123.jpeg);
+  }
+
+  .slide:nth-child(5) {
+    background-image: url(imagess/2124.jpeg);
+  }
+  
+
+  .slider-buttons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+
+  .slider-btn {
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Subjudul kanan */
+  .subjudul {
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0 0 2% 0;
+    text-align: right;
+  }
+
+  .subdesc {
+    font-size: 14px;
+    margin: 0;
+    text-align: right;
+  }
+
+  /* Tombol kembali di tengah */
+  .center-button {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+
+  .btn-back {
+    background-color: #33ff33;
+    border: none;
+    color: black;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background-color: #2aca2a;
+    transform: scale(1.05);
+  }
+
+  /* Footer abu abu */
+ footer {
+    background-color: #2e2b2b;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
+
+    border: 1px solid black; /* stroke hitam tipis */
+}
+
+  footer.show {
+    transform: translateY(0);
+    }
+
+  .contact-person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+  .contact-person h2 {
+    margin-bottom: 20px;
+    }
+
+  .contact-person .columns {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    }
+
+  .contact-person .column {
+    flex: 1;
+    max-width: 200px;
+    }
+
+  .contact-person .column p {
+    word-break: break-all;
+  }
+  @media (max-width: 568px) {
+    .contact-person p {
+        font-size: 12px;
+    }
+    .contact-person .columns {
+        flex-direction: row;
+        gap: 100px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .contact-person .column {
+        max-width: 200px;
+        text-align: center;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="banner"></div>
+
+  <div class="container">
+    <!-- Kiri -->
+    <div class="left-column">
+      <h1 class="title">Kecamatan Gondang</h1>
+      <p class="desc">Berada di kaki gunung, Gondang memiliki potensi agrikultur dan peternakan yang terintegrasi. Kecamatan ini dikelilingi kebun tebu dan sentra peternakan sapi perah. Inilah rahasia produksi susu segar dan daging berkualitas dari Gondang! Gondang adalah kawasan penyangga ekologi dan hortikultura di selatan Mojokerto, berdekatan dengan kawasan konservasi Trawas dan Pacet.</p>
+
+      <div class="box blue-box"></div>
+      <p class="desc">Identitasnya adalah zona hijau yang kaya hasil pertanian buah-buahan. Gondang memiliki latar belakang pertanian yang kaya. Kondisi terkini, Gondang termasuk sentra hortikultura yang memproduksi nanas, durian, dan manggis. Terdapat pula kelompok perikanan (Pokdakan Desa Padi). Meskipun terdapat potensi pertambangan batuan, perkembangannya dibatasi. Potensi usaha berfokus pada pengembangan agrowisata berbasis buah-buahan tropis dan penguatan kelompok perikanan. </p>
+
+      <div class="box lime-box"></div>
+      <p class="desc"> Kawasan ini harus diprioritaskan sebagai zona hijau dan konservasi untuk menjaga keseimbangan ekosistem di selatan. Gondang adalah lokasi investasi yang strategis dalam konservasi berbasis ekonomi. Kami merekomendasikan investasi pada agrowisata dan produksi hortikultura berkelanjutan, mempertahankan citra ekologi kawasan dan memanfaatkan keindahan alamnya</p>
+    </div>
+
+    <!-- Kanan -->
+    <div class="right-column">
+      <div class="red-box">
+        <div class="slider">
+          <div class="slide"></div>
+          <div class="slide"></div>
+          <div class="slide"></div>
+          <div class="slide"></div>
+          <div class="slide"></div>
+        </div>
+        <div class="slider-buttons">
+          <button class="slider-btn" onclick="prevSlide()">&#10094;</button>
+          <button class="slider-btn" onclick="nextSlide()">&#10095;</button>
+        </div>
+      </div>
+      <h3 class="subjudul">subjudul</h3>
+      <p class="subdesc">deskripsi subjudul</p>
+    </div>
+  </div>
+
+  <!-- Tombol kembali di tengah -->
+  <div class="center-button">
+    <button class="btn-back" onclick="window.location.href='/map.html'">Kembali ke Map</button>
+  </div>
+
+  <!-- Footer abu abu -->
+  <footer>
+    <div class="contact-person">
+      <h2>Contact Person</h2>
+      <div class="columns">
+        <div class="column">
+          <p><strong>Nama:</strong> Ahmad Abdillah Syafif</p>
+          <p><strong>Instagram:</strong> @sarriiip</p>
+          <p><strong>Email:</strong>ahmadabdillahsyafif@gmail.com</p>
+          <p><strong>No HP:</strong> +62 856-5565-1994</p>
+        </div>
+        <div class="column">
+          <p><strong>Nama:</strong> Moch Iffat Putra K</p>
+          <p><strong>Instagram:</strong> @miffat_pk</p>
+          <p><strong>Email:</strong>mochammadiffatputrakurniawan@gmail.com</p>
+          <p><strong>No HP:</strong> +62 821 4220 5320</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  let currentSlide = 0;
+  const slider = document.querySelector('.slider');
+  const totalSlides = document.querySelectorAll('.slide').length;
+  const footer = document.querySelector('footer');
+  const subjudul = document.querySelector('.subjudul');
+  const subdesc = document.querySelector('.subdesc');
+  let isTransitioning = false;
+
+  const slideData = [
+    { title: 'Wisata Lembah Mbencirang', desc: 'Lembah atau kawasan alam yang dikembangkan menjadi tempat wisata dan rekreasi, Cocok untuk foto foto dan rekreasi keluarga.' },
+    { title: 'Wisata Air Balekambang', desc: 'Kawasan penginapan dengan konsep cottage atau resort yang menawarkan suasana tenang dan sejuk.' },
+    { title: 'Bukit Semar', desc: 'Destinasi perbukitan yang populer untuk hiking dan menikmati pemandangan alam dari ketinggian.' },
+    { title: 'Retina Cafe', desc: 'Kafe kekinian dengan desain modern, menjadi destinasi hangout utama bagi anak muda di Gondang.' },
+    { title: 'Candi Jedong', desc: 'Dua buah gapura kuno peninggalan era Majapahit, berfungsi sebagai pintu gerbang bersejarah.' }
+  ];
+
+  function nextSlide() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  }
+
+  function prevSlide() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlider();
+  }
+
+  function updateSlider() {
+    const slideWidth = window.innerWidth >= 720 ? 200 : 150; // Adjust for media query
+    const translateX = -currentSlide * slideWidth;
+    slider.style.transform = `translateX(${translateX}px)`;
+
+    // Update subjudul and subdesc based on current slide
+    subjudul.textContent = slideData[currentSlide].title;
+    subdesc.textContent = slideData[currentSlide].desc;
+  }
+
+  slider.addEventListener('transitionend', () => {
+    isTransitioning = false;
+  });
+
+  // Initialize with first slide data
+  updateSlider();
+
+  // Throttle function untuk scroll event
+  function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    }
+  }
+
+  // Scroll event untuk footer dengan throttle
+  window.addEventListener('scroll', throttle(() => {
+    const scrollTop = window.pageYOffset;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // Jika scroll hampir mentok (80% dari tinggi halaman)
+    if (scrollTop + windowHeight >= documentHeight * 0.8) {
+      footer.classList.add('show');
+    } else {
+      footer.classList.remove('show');
+    }
+  }, 16)); // ~60fps
+</script>
+
+</body>
+</html>
