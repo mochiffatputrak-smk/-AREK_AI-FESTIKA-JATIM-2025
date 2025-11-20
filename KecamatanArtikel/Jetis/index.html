@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Info Kecamatan</title>
+<style>
+  /* Reset dan dasar */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  body {
+    background: white;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Banner Pink */
+  .banner {
+    background-image: url(115.jpeg);
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 140px;
+  }
+
+  @media (min-width: 568px) {
+    .banner {
+      background-size: cover;
+      height: 23vh;
+    }
+    .container {
+      justify-content: space-between;
+    }
+    .left-column {
+      margin-left: 0;
+      flex: 1 1 600px;
+    }
+    .box {
+      width: 100%;
+    }
+  }
+
+  /* Container utama - flexbox untuk full width */
+  .container {
+    max-width: 1280px; /* Membatasi lebar maksimal dan memusatkan layout */
+    margin: 0 auto; /* Memusatkan container di halaman */
+    margin-top: auto;
+    padding: 20px;
+    display: flex; /* Diubah dari grid ke flexbox */
+    justify-content: center; /* Memusatkan kolom untuk jarak yang lebih ke tengah */
+    gap: 20px; /* Menggantikan grid-gap */
+
+    /*  ADDITION: agar isi container bisa membesar maksimal memenuhi ruang kosong */
+    width: 90vw; /* container akan mengisi 90% viewport width */
+    min-width: 320px; /* minimal lebar agar tidak terlalu kecil */
+    transition: width 0.8s ease; /* transisi halus saat resize */
+  }
+
+  /* Kiri */
+  .left-column {
+    flex: 0 1 600px; /* Lebar maksimal 600px, dapat menyusut */
+    margin-left: 2%;
+    display: flex;
+    flex-direction: column;
+
+    /* ADDITION: biar lebar kiri mengikuti container dan lebih besar jika ruang ada */
+    max-width: 70vw; /* maksimal 70% dari viewport */
+    transition: max-width 0.8s ease;
+  }
+
+  /* Judul */
+  .title {
+    font-weight: 700;
+    font-size: 22px;
+    margin: 0 0 10px 0;
+  }
+
+  /* Paragraph desc text */
+  .desc {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-top: 0; margin-bottom: 15px;
+  }
+
+
+
+
+  /* Kanan */
+  .right-column {
+    flex: 0 1 300px; /* Lebar maksimal 300px untuk mencegah bertabrakan */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Tetap sejajar ke kanan */
+
+    /* ADDITION supaya kolom kanan juga dapat membesar maksimal */
+    
+  }
+
+  .red-box {
+    width: 150px;
+    height: 120px;
+    border-radius: 10px;
+    margin-bottom: 4%;
+    overflow: hidden;
+    position: relative;
+
+    /* ADDITION agar red-box bisa membesar mengikuti max lebar right-column */
+    max-width: 100%;
+    transition: max-width 0.8s ease, height 0.8s ease;
+  }
+
+  @media (min-width: 720px) {
+    .red-box {
+      width: 200px;
+      height: 160px;
+    }
+  }
+
+  .slider {
+    display: flex;
+    width: 300px; /* 2 gambar x 150px */
+    transition: transform 0.5s ease;
+  }
+
+  @media (min-width: 720px) {
+    .slider {
+      width: 400px; /* 2 gambar x 200px */
+    }
+  }
+
+  .slide {
+    width: 150px;
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  @media (min-width: 720px) {
+    .slide {
+      width: 200px;
+      height: 160px;
+    }
+  }
+
+  .slide:nth-child(1) {
+    background-image: url(2150.jpeg);
+  }
+
+  .slide:nth-child(2) {
+    background-image: url(2151.jpeg);
+  }
+  
+
+  .slider-buttons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+
+  .slider-btn {
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Subjudul kanan */
+  .subjudul {
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0 0 2% 0;
+    text-align: right;
+  }
+
+  .subdesc {
+    font-size: 14px;
+    margin: 0;
+    text-align: right;
+  }
+
+  /* Tombol kembali di tengah */
+  .center-button {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+
+  .btn-back {
+    background-color: #33ff33;
+    border: none;
+    color: black;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background-color: #2aca2a;
+    transform: scale(1.05);
+  }
+
+  /* Footer abu abu */
+ footer {
+    background-color: #2e2b2b;
+    position: sticky;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 0px;
+    transform: translateY(5%);
+    transition: transform 0.5s ease;
+    border: 1px solid black; /* stroke hitam tipis */
+}
+  footer.show {
+    transform: translateY(0);
+    }
+  .contact-person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+  .contact-person h2 {
+    margin-bottom: 20px;
+    }
+
+  .contact-person .columns {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    }
+
+  .contact-person .column {
+    flex: 1;
+    max-width: 200px;
+    }
+
+  .contact-person .column p {
+    word-break: break-all;
+  }
+  @media (max-width: 568px) {
+    .contact-person p {
+        font-size: 12px;
+    }
+    .contact-person .columns {
+        flex-direction: row;
+        gap: 100px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .contact-person .column {
+        max-width: 200px;
+        text-align: center;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="banner"></div>
+
+  <div class="container">
+    <!-- Kiri -->
+    <div class="left-column">
+      <h1 class="title">Kecamatan Jetis</h1>
+      <p class="desc">Jetis adalah kawasan industri dan logistik di utara Kabupaten Mojokerto, diposisikan secara strategis di dekat Sungai Brantas, dan dikenal memiliki potensi pertambangan sirtu dan batuan yang signifikan. Secara historis, Jetis merupakan wilayah yang penting dalam jalur perdagangan. Kondisi terkini menunjukkan potensi penambangan sirtu dan batuan yang tinggi.  </p>
+
+      <p class="desc">Potensi usaha meliputi pengembangan sektor industri ringan dan menengah yang memanfaatkan akses logistik dan material konstruksi lokal. Manajemen penambangan memerlukan komitmen ketat terhadap lingkungan dan reklamasi, memastikan tidak ada eksploitasi berlebihan yang merusak fungsi lahan vital.</p>
+
+      <p class="desc"> Jetis adalah komponen kunci dalam jaringan logistik utara. Kami mengajak investor untuk berinvestasi di bidang infrastruktur pergudangan dan pengolahan material konstruksi, memastikan pembangunan sinergis dengan rencana pengembangan kawasan industri Gerbang kertosusilo Plus.</p>
+    </div>
+
+    <!-- Kanan -->
+    <div class="right-column">
+      <div class="red-box">
+        <div class="slider">
+          <div class="slide"></div>
+          <div class="slide"></div>
+        </div>
+        <div class="slider-buttons">
+          <button class="slider-btn" onclick="prevSlide()">&#10094;</button>
+          <button class="slider-btn" onclick="nextSlide()">&#10095;</button>
+        </div>
+      </div>
+      <h3 class="subjudul">subjudul</h3>
+      <p class="subdesc">deskripsi subjudul</p>
+    </div>
+  </div>
+
+  <!-- Tombol kembali di tengah -->
+  <div class="center-button">
+    <button class="btn-back" onclick="window.location.href='../../map.html'">Kembali ke Map</button>
+  </div>
+
+  <!-- Footer abu abu -->
+  <footer>
+    <div class="contact-person">
+      <h2>Contact Person</h2>
+      <div class="columns">
+        <div class="column">
+          <p><strong>Nama:</strong> Ahmad Abdillah Syafif</p>
+          <p><strong>Instagram:</strong> @sarriiip</p>
+          <p><strong>Email:</strong>ahmadabdillahsyafif@gmail.com</p>
+          <p><strong>No HP:</strong> +62 856-5565-1994</p>
+        </div>
+        <div class="column">
+          <p><strong>Nama:</strong> Moch Iffat Putra K</p>
+          <p><strong>Instagram:</strong> @miffat_pk</p>
+          <p><strong>Email:</strong>mochammadiffatputrakurniawan@gmail.com</p>
+          <p><strong>No HP:</strong> +62 821 4220 5320</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  let currentSlide = 0;
+  const slider = document.querySelector('.slider');
+  const totalSlides = document.querySelectorAll('.slide').length;
+  const footer = document.querySelector('footer');
+  const subjudul = document.querySelector('.subjudul');
+  const subdesc = document.querySelector('.subdesc');
+  let isTransitioning = false;
+
+  const slideData = [
+    { title: 'Bukit Kayoe Putih', desc: 'Bukit hijau yang menawarkan panorama lembah, populer untuk hiking ringan dan fotografi alam.' },
+    { title: 'Watu Blorok', desc: 'situs batu keramat yang terletak di Desa Kupang, Kecamatan Jetis, Kabupaten Mojokerto, Jawa Timur, di perbatasan dengan wilayah Balongpanggang, Gresik' },
+  ];
+
+  function nextSlide() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  }
+
+  function prevSlide() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlider();
+  }
+
+  function updateSlider() {
+    const slideWidth = window.innerWidth >= 720 ? 200 : 150; // Adjust for media query
+    const translateX = -currentSlide * slideWidth;
+    slider.style.transform = `translateX(${translateX}px)`;
+
+    // Update subjudul and subdesc based on current slide
+    subjudul.textContent = slideData[currentSlide].title;
+    subdesc.textContent = slideData[currentSlide].desc;
+  }
+
+  slider.addEventListener('transitionend', () => {
+    isTransitioning = false;
+  });
+
+  // Initialize with first slide data
+  updateSlider();
+
+  // Throttle function untuk scroll event
+  function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    }
+  }
+
+  // Scroll event untuk footer dengan throttle
+  window.addEventListener('scroll', throttle(() => {
+    const scrollTop = window.pageYOffset;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // Jika scroll hampir mentok (80% dari tinggi halaman)
+    if (scrollTop + windowHeight >= documentHeight * 0.8) {
+      footer.classList.add('show');
+    } else {
+      footer.classList.remove('show');
+    }
+  }, 16)); // ~60fps
+</script>
+
+</body>
+</html>
