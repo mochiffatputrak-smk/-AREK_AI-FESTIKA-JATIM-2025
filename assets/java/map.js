@@ -18,7 +18,7 @@ let markersData = [];
 // Fungsi untuk fetch data dari map.json (fokus utama: ambil semua data di sini)
 async function loadMarkersData() {
     try {
-        const response = await fetch('/assets/java/map.json');  // Path ke map.json (sesuaikan jika di folder berbeda)
+        const response = await fetch('map.json');  // Path ke map.json (sesuaikan jika di folder berbeda)
         if (!response.ok) {
             throw new Error('Gagal memuat data marker dari map.json');
         }
@@ -315,4 +315,5 @@ window.addEventListener('load', () => {
 window.addEventListener('resize', () => {
     setBackButtonPosition();
 });
+
 
