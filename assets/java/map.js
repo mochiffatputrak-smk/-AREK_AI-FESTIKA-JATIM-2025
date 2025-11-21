@@ -17,7 +17,7 @@ let markersData = [];
 
 // Fungsi untuk load data marker langsung dari dalam JS (fokus utama: ambil semua data di sini)
 function loadMarkersData() {
-    // Data marker langsung didefinisikan di sini (ganti dengan data asli dari map.json Anda)
+    
     markersData = [
   {
     "kecamatan": "Bangsal",
@@ -451,3 +451,4 @@ window.addEventListener('load', () => {
 window.addEventListener('resize', () => {
     setBackButtonPosition();
 });
+
