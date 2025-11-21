@@ -8,38 +8,174 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 map.zoomControl.setPosition('bottomright');
 
 L.tileLayer('https://api.maptiler.com/maps/basic-v2-no-labels/{z}/{x}/{y}.png?key=iiB23itvfBoDuWE2yxSo', {
-    tileSize: 512,
+    tileSize: 512,  
     zoomOffset: -1
 }).addTo(map);
 
-// Variabel global untuk data marker (akan diisi dari map.json)
+// Variabel global untuk data marker (akan diisi langsung di dalam JS)
 let markersData = [];
 
-// Fungsi untuk fetch data dari map.json (fokus utama: ambil semua data di sini)
-async function loadMarkersData() {
-    try {
-        const response = await fetch('map.json');  // Path ke map.json (sesuaikan jika di folder berbeda)
-        if (!response.ok) {
-            throw new Error('Gagal memuat data marker dari map.json');
-        }
-        markersData = await response.json();
-        console.log('Data marker berhasil dimuat dari map.json:', markersData);
-        
-        // Setelah data dimuat, buat markers dan populate dropdown
-        createMarkers();
-        populateDropdown();
-    } catch (error) {
-        console.error('Error loading markers data dari map.json:', error);
-        // Tidak ada fallback hardcoded: Jika map.json gagal, tampilkan alert dan hentikan
-        alert('Gagal memuat data peta. Pastikan file map.json tersedia dan coba lagi.');
-        // Tidak buat marker atau dropdown jika gagal
-    }
+// Fungsi untuk load data marker langsung dari dalam JS (fokus utama: ambil semua data di sini)
+function loadMarkersData() {
+    // Data marker langsung didefinisikan di sini (ganti dengan data asli dari map.json Anda)
+    markersData = [
+  {
+    "kecamatan": "Bangsal",
+    "lat": -7.500648,
+    "lng": 112.498308,
+    "title": "Kecamatan Bangsal",
+    "desc": "Bangsal adalah perpaduan unik antara industri rumahan dan agrowisata. Kecamatan ini terkenal sebagai pusat produksi batu bata merah berkualitas tinggi dan menjadi sentra penghasil Krupuk Rambak yang biasa di buat oleh-oleh. Temukan tempat untuk bersaintai di Bangsal!",
+    "img": "images/113.jpeg"
+  },
+  {
+    "kecamatan": "Dawarblandong",
+    "lat": -7.330161,
+    "lng": 112.417982,
+    "title": "Kecamatan Dawarblandong",
+    "desc": "Jelajahi 'gerbang utara' Mojokerto! Dawarblandong, yang berbatasan dengan Gresik dan Lamongan, adalah kecamatan terluas dengan karakteristik lahan yang kering. Waduk Dawarblandong menjadi potensi utamanya. Inilah alasan mengapa waduk di utara Mojokerto ini wajib dikunjungi.",
+    "img": "images/118.jpeg"
+  },
+  {
+    "kecamatan": "Dlanggu",
+    "lat": -7.566203712871116,
+    "lng": 112.48354042780542,
+    "title": "Kecamatan Dlanggu",
+    "desc": "Dlanggu adalah lumbung pangan Mojokerto yang terkenal dengan tanah suburnya. Karakteristik utamanya adalah sawah yang luas dan fokus pada beras organik. Inilah tempat ideal untuk merasakan kedamaian pedesaan. Salah satu tempat wisata terbaik di Mojokerto, cek lokasinya di sini!",
+    "img": "images/110.jpeg"
+  },
+  {
+    "kecamatan": "Gedeg",
+    "lat": -7.454209339381071,
+    "lng": 112.39684487285604,
+    "title": "Kecamatan Gedeg",
+    "desc": "Gedeg dikenal sebagai kawasan pertanian tebu yang luas. Namun, warisan budayanya yang paling ikonik adalah Tenun Gedeg, kain tradisional yang sedang diupayakan revitalisasinya. Temukan tempat ngopi kalcer di sini!",
+    "img": "images/116.jpeg"
+  },
+  {
+    "kecamatan": "Gondang",
+    "lat": -7.611912,
+    "lng": 112.489390,
+    "title": "Kecamatan Gondang",
+    "desc": "Berada di kaki gunung, Gondang memiliki potensi agrikultur dan peternakan yang terintegrasi. Kecamatan ini dikelilingi kebun tebu dan sentra peternakan sapi perah. Inilah rekomendasi tempat refresing di Gondang",
+    "img": "images/112.jpeg"
+  },
+  {
+    "kecamatan": "Jatirejo",
+    "lat": -7.581531,
+    "lng": 112.417372,
+    "title": "Kecamatan Jatirejo",
+    "desc": "Tersembunyi di kaki Gunung Anjasmoro, Jatirejo adalah destinasi bagi para pencari wisata rintisan. Karakteristiknya adalah topografi perbukitan dan alam yang masih perawan. Di sinilah terletaknya Situs Kumitir yang diduga istana penting Majapahit. Temukan wisata alam yang menegangkan disini!",
+    "img": "images/104.jpg"
+  },
+  {
+    "kecamatan": "Jetis",
+    "lat": -7.401910,
+    "lng": 112.447174,
+    "title": "Kecamatan Jetis",
+    "desc": "Berada di utara, Jetis memiliki karakteristik pinggiran Sungai Brantas yang identik dengan tambang sirtu (pasir/batu). Meski industri non-logam kuat, kecamatan ini juga memiliki potensi industri ringan dan kerajinan. selain itu Jetis juga memiliki tempat wisatanya. Penasaran, simak di sini!",
+    "img": "images/115.jpeg"
+  },
+  {
+    "kecamatan": "Kemlagi",
+    "lat": -7.394616,
+    "lng": 112.374439,
+    "title": "Kecamatan Kemlagi",
+    "desc": "Kemlagi adalah kawasan lahan kering di utara Mojokerto. Karakteristiknya didominasi oleh pertanian palawija (jagung, tembakau) dan hutan jati. Kecamatan ini adalah contoh pertanian yang adaptif terhadap air terbatas.",
+    "img": "images/117.jpeg"
+  },
+  {
+    "kecamatan": "Kutorejo",
+    "lat": -7.56781554712586,
+    "lng": 112.51100826003427,
+    "title": "Kecamatan Kutorejo",
+    "desc": "Ingin mencari oleh-oleh khas? Kutorejo adalah gudangnya UKM makanan olahan seperti sambal pecel dan krupuk yang dibuat secara tradisional. Karakteristiknya adalah kawasan pertanian tebu yang subur. Wajib mampir kesini saat melintas di Kutorejo!",
+    "img": "images/114.jpeg"
+  },
+  {
+    "kecamatan": "Mojoanyar",
+    "lat": -7.471682,
+    "lng": 112.484176,
+    "title": "Kecamatan Mojoanyar",
+    "desc": "Kecamatan termuda dengan perkembangan tercepat! Mojoanyar adalah kawasan residensial baru yang sangat strategis, berkat kedekatannya dengan Gerbang Tol Mojokerto. Potensinya adalah investasi properti dan hunian modern. Temukan spot ngopi viral di Mojoanyar!.",
+    "img": "images/109.jpg"
+  },
+  {
+    "kecamatan": "Mojosari",
+    "lat": -7.517759979499977,
+    "lng": 112.55792465435927,
+    "title": "Kecamatan Mojosari",
+    "desc": "Jantung ekonomi yang tak pernah mati. Meskipun bukan lagi ibukota, Mojosari tetap menjadi pusat perdagangan, jasa, dan layanan publik terlengkap. Kecamatan ini berkarakteristik padat dan ramai, didominasi Pasar Mojosari dan Stadion Gajah Mada yang legendaris. Mengapa Mojosari selalu jadi traffic utama di Mojokerto?",
+    "img": "images/106.jpeg"
+  },
+  {
+    "kecamatan": "Ngoro",
+    "lat": -7.551837979456891,
+    "lng": 112.61849997070667,
+    "title": "Kecamatan Ngoro",
+    "desc": "Ngoro: Bukan hanya sawah, tapi mesin uang Mojokerto! Berbatasan dengan Pasuruan, Ngoro adalah lokasi Ngoro Industrial Park (NIP), kawasan industri raksasa. Karakteristiknya adalah perpaduan pabrik modern dengan hunian pekerja. Selain pusat industri, Kecamatan Ngoro juga daya tariknya sendiri. Yuk Kepoin!",
+    "img": "images/105.jpeg"
+  },
+  {
+    "kecamatan": "Pacet",
+    "lat": -7.666442378192616,
+    "lng": 112.53712763346928,
+    "title": "Kecamatan Pacet",
+    "desc": "Siap memacu adrenalin? Pacet, yang berada di lereng Gunung Welirang-Anjasmoro, terkenal sebagai destinasi healing dan thrill. Kecamatan ini adalah rumah bagi Pemandian Air Panas Padusan yang melegenda, sekaligus jeram Sungai Kromong yang menantang untuk rafting. selain itu Cek menemukan tempat wisata lain di Pacet!",
+    "img": "images/102.jpeg"
+  },
+  {
+    "kecamatan": "Pungging",
+    "lat": -7.539075,
+    "lng": 112.575326,
+    "title": "Kecamatan Pungging",
+    "desc": "Tak hanya padi, Pungging adalah sentra perikanan air tawar terbesar! Kecamatan ini memiliki kolam-kolam budidaya lele dan gurami yang menghasilkan pasokan regional. Karakteristiknya adalah desa yang tenang, sempurna untuk wisata pemancingan. Selain pemancingan, Temukan lokasi kuliner dan tempat wisata di Pungging!",
+    "img": "images/111.jpeg"
+  },
+  {
+    "kecamatan": "Puri",
+    "lat": -7.539806530073111,
+    "lng": 112.44599017552008,
+    "title": "Kecamatan Puri",
+    "desc": "Ingin melihat Mojokerto yang paling modern? Puri dilintasi Bypass Krian Mojokerto dan menjadi rumah bagi kluster perumahan elite. Karakteristiknya adalah kawasan kuliner modern dan showroom otomotif. Selain hunian komersil, Puri juga punya hal menarik karena posisinya yang dekat dengan kota. penasaran? check it out!",
+    "img": "images/108.jpeg"
+  },
+  {
+    "kecamatan": "Sooko",
+    "lat": -7.501015,
+    "lng": 112.412784,
+    "title": "Kecamatan Sooko",
+    "desc": "Sooko adalah penyangga urban yang tumbuh pesat di sebelah timur Kota Mojokerto. Karakteristiknya adalah kawasan perumahan padat dan sentra UKM alas kaki (sepatu/sandal) yang memasok pasar regional. Selain posisi nya yang dekat dengan pusat kota, Sooko juga punya daya tariknya sendiri. Penasaran?, cek di sini!",
+    "img": "images/107.jpeg"
+  },
+  {
+    "kecamatan": "Trawas",
+    "lat": -7.664622997856718,
+    "lng": 112.59604350620671,
+    "title": "Kecamatan Trawas",
+    "desc": "Ingin kabur dari gerahnya kota? Trawas, surga di lereng Gunung Welirang, menawarkan udara paling sejuk Mojokerto. Berbatasan dengan Pasuruan, Trawas adalah rumah bagi glamping mewah dan kafe-kafe Instagramable yang menjanjikan pemandangan pegunungan yang masih alami. Temukan di mana saja spot nongkrong di sana!.",
+    "img": "images/101a.jpg"
+  },
+  {
+    "kecamatan": "Trowulan",
+    "lat": -7.532409,
+    "lng": 112.405397,
+    "title": "Kecamatan Trowulan",
+    "desc": "Tahukah Anda bahwa Trowulan bukanlah sekadar kecamatan biasa? Berada dekat pusat Mojokerto, kawasan ini adalah Ibukota legendaris Kerajaan Majapahit! Candi Bajang Ratu, Museum Majapahit, dan kerajinan terakota menanti Anda. Lihat sisa-sisa peradaban emas Nusantara yang masih utuh di sini!",
+    "img": "images/103.jpg"
+  },
+];
+    
+    console.log('Data marker berhasil dimuat langsung dari JS:', markersData);
+    
+    // Setelah data dimuat, buat markers dan populate dropdown
+    createMarkers();
+    populateDropdown();
 }
 
-// Fungsi untuk membuat markers (fokus utama: ambil lat, lng, title, desc, img dari markersData yang di-fetch)
+// Fungsi untuk membuat markers (fokus utama: ambil lat, lng, title, desc, img dari markersData yang langsung didefinisikan)
 function createMarkers() {
     markersData.forEach(data => {
-        // Ambil nama kecamatan dari map.json
+        // Ambil nama kecamatan dari markersData
         const kecamatanName = data.kecamatan;
 
         // Custom icon
@@ -51,11 +187,11 @@ function createMarkers() {
             tooltipAnchor: [0, 23]
         });
 
-        // Buat marker dengan lat dan lng dari map.json
+        // Buat marker dengan lat dan lng dari markersData
         const marker = L.marker([data.lat, data.lng], { icon: customIcon }).addTo(map);
-        marker.data = data;  // Simpan objek lengkap dari map.json (termasuk title, desc, img)
+        marker.data = data;  // Simpan objek lengkap dari markersData (termasuk title, desc, img)
 
-        // Tooltip permanen sebagai label kecamatan dari map.json
+        // Tooltip permanen sebagai label kecamatan dari markersData
         marker.bindTooltip(kecamatanName, {
             permanent: true,
             direction: 'top',
@@ -97,7 +233,7 @@ function createMarkers() {
     });
 }
 
-// Fungsi untuk populate dropdown dari markersData (dari map.json)
+// Fungsi untuk populate dropdown dari markersData (dari dalam JS)
 function populateDropdown() {
     const dropdownContent = document.getElementById('dropdownContent');
     dropdownContent.innerHTML = '';  // Kosongkan dropdown hardcoded
@@ -122,7 +258,7 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
     return R * c;
 }
 
-// Fungsi simulateMarkerClick - sekarang berdasarkan data kecamatan dari map.json
+// Fungsi simulateMarkerClick - sekarang berdasarkan data kecamatan dari markersData
 function simulateMarkerClick(kecamatanName) {
     let targetMarker = null;
     
@@ -158,7 +294,7 @@ function simulateMarkerClick(kecamatanName) {
             analyzeAndExecutePanWithOffset(latlng, targetMarker);
         }
     } else {
-        console.warn('Marker untuk kecamatan ' + kecamatanName + ' tidak ditemukan di map.json.');
+        console.warn('Marker untuk kecamatan ' + kecamatanName + ' tidak ditemukan di markersData.');
     }
     
     toggleDropdown();
@@ -215,9 +351,9 @@ function analyzeAndExecutePanWithOffset(latlng, marker) {
     map._zoomEndTriggered = true;
 }
 
-// Fungsi untuk update panel dan buka - ambil title, desc, img dari marker.data (dari map.json)
+// Fungsi untuk update panel dan buka - ambil title, desc, img dari marker.data (dari markersData)
 function updateAndOpenPanel(marker) {
-    // Ambil data langsung dari map.json via marker.data
+    // Ambil data langsung dari markersData via marker.data
     document.getElementById('panelImage').src = marker.data.img;
     document.getElementById('panelTitle').textContent = marker.data.title;
     document.getElementById('panelDescription').textContent = marker.data.desc;
@@ -304,9 +440,9 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Event listener untuk load - panggil loadMarkersData dulu untuk ambil data dari map.json
+// Event listener untuk load - panggil loadMarkersData dulu untuk ambil data langsung dari JS
 window.addEventListener('load', () => {
-    loadMarkersData();  // Fokus: Load semua data marker dari map.json di sini
+    loadMarkersData();  // Fokus: Load semua data marker langsung dari dalam JS di sini
     document.body.classList.add('loaded');
     setBackButtonPosition();
 });
@@ -315,5 +451,3 @@ window.addEventListener('load', () => {
 window.addEventListener('resize', () => {
     setBackButtonPosition();
 });
-
-
